@@ -8,3 +8,7 @@
 ## Pertemuan 1
 
 ![pertemuan 1](images/pertemuan1.png)
+
+## Pertemuan 2
+![pertemuan 2 (1)](images/pertemuan2.png) 
+![pertemuan 2 (2)](images/pertemuan2(2).png)
