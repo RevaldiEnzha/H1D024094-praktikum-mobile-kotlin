@@ -15,7 +15,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -27,7 +29,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.pemmob.jualan.ui.screen.BasicInfoScreen
+import com.pemmob.jualan.ui.screen.HubungiKamiScreen
 import com.pemmob.jualan.ui.theme.JualanTheme
+// Hapus: import com.pemmob.jualan.ui.theme.Surface
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,8 +43,21 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             JualanTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    LayoutTentangJualan()
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ){
+                    val navController = rememberNavController()
+                    NavHost(navController = navController, startDestination = "basic_info"){
+                        composable("basic_info"){
+                            BasicInfoScreen (
+                                onNavigateToContact = {navController.navigate("form_screen")}
+                            )
+                        }
+                        composable ("form_screen"){
+                            HubungiKamiScreen(navController = navController)
+                        }
+                    }
                 }
             }
         }
@@ -51,65 +72,6 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
     )
 }
 
-@Composable
-fun LayoutTentangJualan() {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Box(
-            modifier = Modifier
-                .size(100.dp)
-                .clip(CircleShape)
-                .background(Color.Gray),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                text = "Jualan",
-                color = Color.White,
-                fontWeight = FontWeight.Bold
-            )
-        }
-
-        Spacer(modifier = Modifier.height(24.dp))
-
-        Text(
-            text = "Tentang Jualan",
-            fontSize = 24.sp,
-            fontWeight = FontWeight.Bold
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Text(
-            text = "Aplikasi Jualan adalah platform yang mewadahi produk lokal UMKM di wilayah Kabupaten Purbalingga, Jawa Tengah.",
-            fontSize = 16.sp,
-            modifier = Modifier.padding(horizontal = 16.dp)
-        )
-
-        Spacer(modifier = Modifier.height(32.dp))
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(Color(0xFFE0E0E0))
-                .padding(16.dp)
-        ) {
-            Text(
-                text = "Misi Kami:",
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.weight(1f)
-            )
-
-            Text(
-                text = "Memajukan UMKM lokal",
-                modifier = Modifier.weight(2f)
-            )
-        }
-    }
-}
 
 @Preview(showBackground = true)
 @Composable
